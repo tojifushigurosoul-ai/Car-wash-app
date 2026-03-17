@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Wash Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans p-4">
+
+    <div class="max-w-md mx-auto text-center mb-8">
+        <h1 class="text-3xl font-bold text-blue-600">Flash Car Wash</h1>
+        <p class="text-gray-500">Scan. Book. Shine.</p>
+    </div>
+
+    <div class="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-xl font-semibold mb-4">Select your time for Bay 1:</h2>
+        
+        <div id="slot-container" class="grid grid-cols-2 gap-3">
+            </div>
+
+        <div id="booking-form" class="hidden mt-8 border-t pt-6">
+            <h3 class="text-lg font-bold mb-2">Confirm Booking for <span id="selected-time" class="text-blue-600"></span></h3>
+            <input type="text" placeholder="Your Name" class="w-full border p-3 rounded-lg mb-3">
+            <button onclick="alert('Booking Confirmed! See you soon.')" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg active:scale-95 transition">
+                Confirm & Pay at Bay
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // LOGIC: These are the times already in your "Database"
+        const bookedTimes = ["10:30", "11:00", "14:00"];
+
+        // All possible slots from 9 AM to 5 PM
+        const allSlots = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "13:00", "13:30", "14:00", "14:30", "15:00"];
+
+        const container = document.getElementById('slot-container');
+
+        allSlots.forEach(time => {
+            const isBooked = bookedTimes.includes(time);
+            const btn = document.createElement('button');
+            
+            btn.innerText = time;
+            
+            if (isBooked) {
+                // Style for booked slots
+                btn.className = "bg-gray-200 text-gray-400 cursor-not-allowed py-4 rounded-xl font-bold";
+                btn.disabled = true;
+            } else {
+                // Style for available slots
+                btn.className = "bg-green-100 text-green-700 border-2 border-green-500 py-4 rounded-xl font-bold hover:bg-green-500 hover:text-white transition active:scale-90";
+                btn.onclick = () => selectTime(time);
+            }
+            
+            container.appendChild(btn);
+        });
+
+        function selectTime(time) {
+            document.getElementById('selected-time').innerText = time;
+            document.getElementById('booking-form').classList.remove('hidden');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
